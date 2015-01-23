@@ -1,6 +1,8 @@
 # Bitreserve SDK for PHP
-[![Build Status](https://travis-ci.org/seegno/bitreserve-sdk-php.svg?branch=master)](https://travis-ci.org/seegno/bitreserve-sdk-php)
 [![Latest Version](https://img.shields.io/packagist/v/seegno/bitreserve-sdk-php.svg)](https://packagist.org/packages/seegno/bitreserve-sdk-php)
+[![Build Status](https://travis-ci.org/seegno/bitreserve-sdk-php.svg?branch=master)](https://travis-ci.org/seegno/bitreserve-sdk-php)
+[![Code Climate](https://codeclimate.com/github/seegno/bitreserve-sdk-php/badges/gpa.svg)](https://codeclimate.com/github/seegno/bitreserve-sdk-php)
+[![Test Coverage](https://codeclimate.com/github/seegno/bitreserve-sdk-php/badges/coverage.svg)](https://codeclimate.com/github/seegno/bitreserve-sdk-php)
 
 Bitreserve is a next generation money service business that shields you from bitcoin volatility by enabling you to hold bitcoin as the money you use every day.
 
