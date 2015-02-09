@@ -3,6 +3,7 @@
 namespace Bitreserve;
 
 use Bitreserve\Exception\RuntimeException;
+use Bitreserve\HttpClient\Handler\ErrorHandler;
 use Bitreserve\HttpClient\HttpClient;
 use Bitreserve\HttpClient\HttpClientInterface;
 use Bitreserve\HttpClient\Message\ResponseMediator;
@@ -56,7 +57,10 @@ class BitreserveClient
      */
     public function __construct($bearer = null)
     {
-        $this->options = array_merge($this->options, array('bearer' => $bearer));
+        $this->options = array_merge($this->options, array(
+            'bearer' => $bearer,
+            'errorHandler' => new ErrorHandler($this->options),
+        ));
 
         $this->setHttpClient(new HttpClient($this->options));
     }

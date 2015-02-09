@@ -3,6 +3,7 @@
 namespace Bitreserve\Tests\HttpClient;
 
 use Bitreserve\BitreserveClient;
+use Bitreserve\HttpClient\Handler\ErrorHandler;
 use Bitreserve\HttpClient\HttpClient;
 use Bitreserve\HttpClient\Listener\ErrorListener;
 use Bitreserve\HttpClient\Message\ResponseMediator;
@@ -225,6 +226,12 @@ class HttpClientTest extends \PHPUnit_Framework_TestCase
         $clientReflector->setAccessible(true);
         $clientReflector->setValue($httpClient, $client);
 
+        $errorHandler = new ErrorHandler();
+
+        $errorHandlerReflector = new ReflectionProperty('Bitreserve\HttpClient\HttpClient', 'errorHandler');
+        $errorHandlerReflector->setAccessible(true);
+        $errorHandlerReflector->setValue($httpClient, $errorHandler);
+
         $httpClientResponse = $httpClient->request($path, $body, $httpMethod, $headers, $options);
     }
 
@@ -262,6 +269,12 @@ class HttpClientTest extends \PHPUnit_Framework_TestCase
         $clientReflector = new ReflectionProperty('Bitreserve\HttpClient\HttpClient', 'client');
         $clientReflector->setAccessible(true);
         $clientReflector->setValue($httpClient, $client);
+
+        $errorHandler = new ErrorHandler();
+
+        $errorHandlerReflector = new ReflectionProperty('Bitreserve\HttpClient\HttpClient', 'errorHandler');
+        $errorHandlerReflector->setAccessible(true);
+        $errorHandlerReflector->setValue($httpClient, $errorHandler);
 
         $httpClientResponse = $httpClient->request($path, $body, $httpMethod, $headers, $options);
     }
@@ -301,79 +314,6 @@ class HttpClientTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals("Just raw context", $response->getBody());
         $this->assertInstanceOf('GuzzleHttp\Message\MessageInterface', $response);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldReturnLastRequest()
-    {
-        $body = array('a' => 'b');
-        $headers = array('c' => 'd');
-        $httpMethod = 'custom';
-        $options = array('e' => 'f');
-        $path = '/some/path';
-
-        $request = new Request($httpMethod, $path);
-
-        $httpClient = $this->getMockBuilder('Bitreserve\HttpClient\HttpClient')
-            ->setMethods(array('createRequest'))
-            ->getMock();
-
-        $client = $this->getClientMock();
-
-        $client->expects($this->once())
-            ->method('createRequest')
-            ->with($httpMethod, $path, array_merge($options, array('headers' => $headers, 'body' => $body)))
-            ->will($this->returnValue($request));
-
-        $reflector = new ReflectionProperty('Bitreserve\HttpClient\HttpClient', 'client');
-        $reflector->setAccessible(true);
-        $reflector->setValue($httpClient, $client);
-
-        $httpClient->request($path, $body, $httpMethod, $headers, $options);
-
-        $this->assertEquals($request, $httpClient->getLastRequest());
-    }
-
-    /**
-     * @test
-     */
-    public function shouldReturnLastResponse()
-    {
-        $body = array('a' => 'b');
-        $headers = array('c' => 'd');
-        $httpMethod = 'custom';
-        $options = array('e' => 'f');
-        $path = '/some/path';
-
-        $request = new Request($httpMethod, $path);
-        $response = new Response(200, array('foo' => 'bar'));
-
-        $httpClient = $this->getMockBuilder('Bitreserve\HttpClient\HttpClient')
-            ->setMethods(array('createRequest'))
-            ->getMock();
-
-        $client = $this->getClientMock();
-
-        $client->expects($this->once())
-            ->method('createRequest')
-            ->with($httpMethod, $path, array_merge($options, array('headers' => $headers, 'body' => $body)))
-            ->will($this->returnValue($request));
-
-        $client->expects($this->once())
-            ->method('send')
-            ->with($request)
-            ->will($this->returnValue($response));
-
-        $clientReflector = new ReflectionProperty('Bitreserve\HttpClient\HttpClient', 'client');
-        $clientReflector->setAccessible(true);
-        $clientReflector->setValue($httpClient, $client);
-
-        $httpClientResponse = $httpClient->request($path, $body, $httpMethod, $headers, $options);
-
-        $this->assertEquals($response, $httpClient->getLastResponse());
-        $this->assertEquals($httpClientResponse, $httpClient->getLastResponse());
     }
 
     protected function getHttpClientMock()

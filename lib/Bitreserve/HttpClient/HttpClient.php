@@ -2,7 +2,6 @@
 
 namespace Bitreserve\HttpClient;
 
-use Bitreserve\HttpClient\Handler\ErrorHandler;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\ClientInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -52,23 +51,10 @@ class HttpClient implements HttpClientInterface
         $this->options = array_merge($this->options, $options);
 
         $this->client = new GuzzleClient($this->options);
-        $this->errorHandler = new ErrorHandler($this->options);
-    }
 
-    /**
-     * @return Request
-     */
-    public function getLastRequest()
-    {
-        return $this->lastRequest;
-    }
-
-    /**
-     * @return Response
-     */
-    public function getLastResponse()
-    {
-        return $this->lastResponse;
+        if (isset($this->options['errorHandler'])) {
+            $this->errorHandler = $this->options['errorHandler'];
+        }
     }
 
     /**
@@ -155,11 +141,12 @@ class HttpClient implements HttpClientInterface
         try {
             $response = $this->client->send($request);
         } catch(\Exception $e) {
+            if (null === $this->errorHandler) {
+                throw $e;
+            }
+
             $this->errorHandler->onException($e);
         }
-
-        $this->lastRequest = $request;
-        $this->lastResponse = $response;
 
         return $response;
     }
