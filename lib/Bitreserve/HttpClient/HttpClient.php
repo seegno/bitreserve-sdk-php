@@ -56,22 +56,6 @@ class HttpClient implements HttpClientInterface
     }
 
     /**
-     * @return Request
-     */
-    public function getLastRequest()
-    {
-        return $this->lastRequest;
-    }
-
-    /**
-     * @return Response
-     */
-    public function getLastResponse()
-    {
-        return $this->lastResponse;
-    }
-
-    /**
      * {@inheritDoc}
      */
     public function getOption($name)
@@ -157,9 +141,6 @@ class HttpClient implements HttpClientInterface
         } catch(\Exception $e) {
             $this->errorHandler->onException($e);
         }
-
-        $this->lastRequest = $request;
-        $this->lastResponse = $response;
 
         return $response;
     }
