@@ -3,6 +3,7 @@
 namespace Bitreserve\Tests\HttpClient;
 
 use Bitreserve\BitreserveClient;
+use Bitreserve\HttpClient\Handler\ErrorHandler;
 use Bitreserve\HttpClient\HttpClient;
 use Bitreserve\HttpClient\Listener\ErrorListener;
 use Bitreserve\HttpClient\Message\ResponseMediator;
@@ -225,6 +226,12 @@ class HttpClientTest extends \PHPUnit_Framework_TestCase
         $clientReflector->setAccessible(true);
         $clientReflector->setValue($httpClient, $client);
 
+        $errorHandler = new ErrorHandler();
+
+        $errorHandlerReflector = new ReflectionProperty('Bitreserve\HttpClient\HttpClient', 'errorHandler');
+        $errorHandlerReflector->setAccessible(true);
+        $errorHandlerReflector->setValue($httpClient, $errorHandler);
+
         $httpClientResponse = $httpClient->request($path, $body, $httpMethod, $headers, $options);
     }
 
@@ -262,6 +269,12 @@ class HttpClientTest extends \PHPUnit_Framework_TestCase
         $clientReflector = new ReflectionProperty('Bitreserve\HttpClient\HttpClient', 'client');
         $clientReflector->setAccessible(true);
         $clientReflector->setValue($httpClient, $client);
+
+        $errorHandler = new ErrorHandler();
+
+        $errorHandlerReflector = new ReflectionProperty('Bitreserve\HttpClient\HttpClient', 'errorHandler');
+        $errorHandlerReflector->setAccessible(true);
+        $errorHandlerReflector->setValue($httpClient, $errorHandler);
 
         $httpClientResponse = $httpClient->request($path, $body, $httpMethod, $headers, $options);
     }

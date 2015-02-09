@@ -32,6 +32,16 @@ class BitreserveClientTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function shouldReturnInstanceOfErrorHandler()
+    {
+        $client = new BitreserveClient();
+
+        $this->assertInstanceOf('Bitreserve\HttpClient\Handler\ErrorHandler', $client->getOption('errorHandler'));
+    }
+
+    /**
+     * @test
+     */
     public function shouldReturnBearerWhenPassingInConstructor()
     {
         $client = new BitreserveClient('bearer');
