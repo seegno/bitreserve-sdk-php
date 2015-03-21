@@ -26,6 +26,18 @@ class CardTest extends TestCase
 
     /**
      * @test
+     *
+     * @expectedException PHPUnit_Framework_Error
+     * @expectedExceptionMessage Argument 1 passed to Bitreserve\Model\Card::__construct() must be an
+     *                           instance of Bitreserve\BitreserveClient, string given
+     */
+    public function shouldThrowExceptionWhenFirstArgumentIsNotAnInstanceOfBitreserveClient()
+    {
+        $card = new Card('foo', 'bar');
+    }
+
+    /**
+     * @test
      */
     public function shouldReturnId()
     {
