@@ -24,6 +24,7 @@
     },
     "require-dev": {
         "codeclimate/php-test-reporter": "~0.1.2",
+        "fzaninotto/faker": "v1.4.0",
         "phpdocumentor/phpdocumentor": "~2.8.1",
         "phpunit/phpunit": "~4.4.1"
     },
