@@ -14,7 +14,7 @@ class CardTest extends TestCase
      */
     public function shouldReturnInstanceOfCard()
     {
-        $data = array('id' => '1');
+        $data = array('id' => $this->faker->randomDigitNotNull);
 
         $client = $this->getBitreserveClientMock();
 
@@ -29,7 +29,7 @@ class CardTest extends TestCase
      */
     public function shouldReturnId()
     {
-        $data = array('id' => '1');
+        $data = array('id' => $this->faker->randomDigitNotNull);
 
         $client = $this->getBitreserveClientMock();
 
@@ -57,7 +57,7 @@ class CardTest extends TestCase
      */
     public function shouldReturnLabel()
     {
-        $data = array('label' => 'My Card');
+        $data = array('label' => $this->faker->sentence(3));
 
         $client = $this->getBitreserveClientMock();
 
@@ -71,7 +71,7 @@ class CardTest extends TestCase
      */
     public function shouldReturnCurrency()
     {
-        $data = array('currency' => 'BTC');
+        $data = array('currency' => $this->faker->currencyCode);
 
         $client = $this->getBitreserveClientMock();
 
@@ -85,7 +85,7 @@ class CardTest extends TestCase
      */
     public function shouldReturnBalance()
     {
-        $data = array('balance' => '12.34');
+        $data = array('balance' => $this->faker->randomFloat);
 
         $client = $this->getBitreserveClientMock();
 
@@ -99,7 +99,7 @@ class CardTest extends TestCase
      */
     public function shouldReturnAvailable()
     {
-        $data = array('available' => '12.34');
+        $data = array('available' => $this->faker->randomFloat);
 
         $client = $this->getBitreserveClientMock();
 
@@ -127,7 +127,7 @@ class CardTest extends TestCase
      */
     public function shouldReturnSettings()
     {
-        $data = array('settings' => array('position' => '3', 'starred' => true));
+        $data = array('settings' => array('position' => $this->faker->randomDigitNotNull, 'starred' => true));
 
         $client = $this->getBitreserveClientMock();
 
@@ -196,10 +196,10 @@ class CardTest extends TestCase
         $cardData = array('id' => 'ade869d8-7913-4f67-bb4d-72719f0a2be0');
 
         $postData = array(
-            'destination' => 'luke.skywalker@rebelalliance.org',
+            'destination' => $this->faker->email,
             'denomination' => array(
-                'amount' => '0.1',
-                'currency' => 'BTC',
+                'amount' => $this->faker->randomFloat,
+                'currency' => $this->faker->currencyCode,
         ));
 
         $data = array(
