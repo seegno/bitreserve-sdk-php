@@ -17,7 +17,7 @@ class UserTest extends TestCase
     {
         $client = $this->getBitreserveClientMock();
 
-        $data = array('firstName' => 'foo');
+        $data = array('firstName' => $this->faker->firstName);
 
         $user = new User($client, $data);
 
@@ -29,7 +29,7 @@ class UserTest extends TestCase
      */
     public function shouldPerformAUserUpdate()
     {
-        $data = array('firstName' => 'foo', 'lastName' => 'bar');
+        $data = array('firstName' => $this->faker->firstName, 'lastName' => $this->faker->lastName);
 
         $response = $this->getResponseMock($data);
 
@@ -52,7 +52,7 @@ class UserTest extends TestCase
      */
     public function shouldReturnUsername()
     {
-        $data = array('username' => 'foobar');
+        $data = array('username' => $this->faker->username);
 
         $client = $this->getBitreserveClientMock();
 
@@ -66,7 +66,7 @@ class UserTest extends TestCase
      */
     public function shouldReturnEmail()
     {
-        $data = array('email' => 'foo@bar.com');
+        $data = array('email' => $this->faker->email);
 
         $client = $this->getBitreserveClientMock();
 
@@ -80,7 +80,7 @@ class UserTest extends TestCase
      */
     public function shouldReturnFirstName()
     {
-        $data = array('firstName' => 'foo');
+        $data = array('firstName' => $this->faker->firstName);
 
         $client = $this->getBitreserveClientMock();
 
@@ -94,7 +94,7 @@ class UserTest extends TestCase
      */
     public function shouldReturnLastName()
     {
-        $data = array('lastName' => 'bar');
+        $data = array('lastName' => $this->faker->lastName);
 
         $client = $this->getBitreserveClientMock();
 
@@ -108,7 +108,7 @@ class UserTest extends TestCase
      */
     public function shouldReturnName()
     {
-        $data = array('name' => 'Foobar');
+        $data = array('name' => $this->faker->name);
 
         $client = $this->getBitreserveClientMock();
 
@@ -122,7 +122,7 @@ class UserTest extends TestCase
      */
     public function shouldReturnCountry()
     {
-        $data = array('country' => 'US');
+        $data = array('country' => $this->faker->countryCode);
 
         $client = $this->getBitreserveClientMock();
 
@@ -136,7 +136,7 @@ class UserTest extends TestCase
      */
     public function shouldReturnState()
     {
-        $data = array('state' => 'CA');
+        $data = array('state' => $this->faker->state);
 
         $client = $this->getBitreserveClientMock();
 
@@ -168,7 +168,7 @@ class UserTest extends TestCase
     public function shouldReturnSettings()
     {
         $data = array('settings' => array(
-            'currency' => 'USD',
+            'currency' => $this->faker->currencyCode,
             'theme' => 'minimalistic',
         ));
 
@@ -191,9 +191,9 @@ class UserTest extends TestCase
     public function shouldReturnPhones()
     {
         $data = array(
-            'id' => '1d78aeb5-43ac-4ee8-8d28-1291b5d8355c',
-            'verified' => 'true',
-            'primary' => 'true',
+            'id' => $this->faker->uuid,
+            'verified' => $this->faker->boolean,
+            'primary' => $this->faker->boolean,
             'e164Masked' => '+XXXXXXXXX04',
             'nationalMasked' => '(XXX) XXX-XX04',
             'internationalMasked' => '+X XXX-XXX-XX04',
@@ -220,9 +220,9 @@ class UserTest extends TestCase
     public function shouldReturnContacts()
     {
         $data = array(array(
-            'id' => '9fae84eb-712d-4b6a-9b2c-764bdde4c079',
-            'firstName' => 'Foo',
-            'lastName' => 'Bar',
+            'id' => $this->faker->uuid,
+            'firstName' => $this->faker->firstName,
+            'lastName' => $this->faker->lastName,
         ));
 
         $response = $this->getResponseMock($data);
@@ -249,11 +249,26 @@ class UserTest extends TestCase
     {
         $data = array('balances' => array(
             'currencies' => array(
-                'EUR' => array('balance' => '15', 'amount' => '15', 'rate' => '1', 'currency' => 'EUR'),
-                'USD' => array('balance' => '58.05', 'amount' => '75.01', 'rate' => '1.29220', 'currency' => 'EUR'),
-                'XAU' => array('balance' => '0', 'amount' => '0', 'rate' => '1027.72303', 'currency' => 'EUR'),
+                'EUR' => array(
+                    'balance' => $this->faker->randomFloat(2),
+                    'amount' => $this->faker->randomFloat(2),
+                    'rate' => $this->faker->randomFloat(2, 1, 2),
+                    'currency' => 'EUR',
+                ),
+                'USD' => array(
+                    'balance' => $this->faker->randomFloat(2),
+                    'amount' => $this->faker->randomFloat(2),
+                    'rate' => $this->faker->randomFloat(2, 1, 2),
+                    'currency' => 'EUR',
+                ),
+                'XAU' => array(
+                    'balance' => $this->faker->randomFloat(2),
+                    'amount' => $this->faker->randomFloat(2),
+                    'rate' => $this->faker->randomFloat(2),
+                    'currency' => 'EUR',
+                ),
             ),
-            'total' => '58.05',
+            'total' => $this->faker->randomFloat(2),
         ));
 
         $response = $this->getResponseMock($data);
@@ -279,11 +294,26 @@ class UserTest extends TestCase
     {
         $data = array('balances' => array(
             'currencies' => array(
-                'EUR' => array('balance' => '15', 'amount' => '15', 'rate' => '1', 'currency' => 'EUR'),
-                'USD' => array('balance' => '58.05', 'amount' => '75.01', 'rate' => '1.29220', 'currency' => 'EUR'),
-                'XAU' => array('balance' => '0', 'amount' => '0', 'rate' => '1027.72303', 'currency' => 'EUR'),
+                'EUR' => array(
+                    'balance' => $this->faker->randomFloat(2),
+                    'amount' => $this->faker->randomFloat(2),
+                    'rate' => $this->faker->randomFloat(2, 1, 2),
+                    'currency' => 'EUR',
+                ),
+                'USD' => array(
+                    'balance' => $this->faker->randomFloat(2),
+                    'amount' => $this->faker->randomFloat(2),
+                    'rate' => $this->faker->randomFloat(2, 1, 2),
+                    'currency' => 'EUR',
+                ),
+                'XAU' => array(
+                    'balance' => $this->faker->randomFloat(2),
+                    'amount' => $this->faker->randomFloat(2),
+                    'rate' => $this->faker->randomFloat(2),
+                    'currency' => 'EUR',
+                ),
             ),
-            'total' => '58.05',
+            'total' => $this->faker->randomFloat(2),
         ));
 
         $response = $this->getResponseMock($data);
@@ -309,14 +339,29 @@ class UserTest extends TestCase
         $data = array(
             'balances' => array(
                 'currencies' => array(
-                    'EUR' => array('balance' => '15', 'amount' => '15', 'rate' => '1', 'currency' => 'EUR'),
-                    'USD' => array('balance' => '58.05', 'amount' => '75.01', 'rate' => '1.29220', 'currency' => 'EUR'),
-                    'XAU' => array('balance' => '0', 'amount' => '0', 'rate' => '1027.72303', 'currency' => 'EUR'),
+                    'EUR' => array(
+                        'balance' => $this->faker->randomFloat(2),
+                        'amount' => $this->faker->randomFloat(2),
+                        'rate' => $this->faker->randomFloat(2, 1, 2),
+                        'currency' => 'EUR',
+                    ),
+                    'USD' => array(
+                        'balance' => $this->faker->randomFloat(2),
+                        'amount' => $this->faker->randomFloat(2),
+                        'rate' => $this->faker->randomFloat(2, 1, 2),
+                        'currency' => 'EUR',
+                    ),
+                    'XAU' => array(
+                        'balance' => $this->faker->randomFloat(2),
+                        'amount' => $this->faker->randomFloat(2),
+                        'rate' => $this->faker->randomFloat(2),
+                        'currency' => 'EUR',
+                    ),
                 ),
-                'total' => '58.05',
+                'total' => $this->faker->randomFloat(2),
             ),
             'settings' => array(
-                'currency' => 'USD',
+                'currency' => $this->faker->currencyCode,
         ));
 
         $response = $this->getResponseMock($data);
@@ -329,7 +374,13 @@ class UserTest extends TestCase
 
         $user = new User($client, $data);
 
-        $this->assertEquals(array('amount' => '58.05', 'currency' => 'USD'), $user->getTotalBalance());
+        $this->assertEquals(
+            array(
+                'amount' => $data['balances']['total'],
+                'currency' => $data['settings']['currency'],
+            ),
+            $user->getTotalBalance()
+        );
     }
 
     /**
@@ -338,15 +389,15 @@ class UserTest extends TestCase
     public function shouldReturnCards()
     {
         $data = array(array(
-            'id' => '1',
-            'label' => 'My Card',
-            'currency' => 'BTC',
-            'balance' => '12.03',
+            'id' => $this->faker->randomDigitNotNull,
+            'label' => $this->faker->sentence(2),
+            'currency' => $this->faker->currencyCode,
+            'balance' => $this->faker->randomFloat(2),
         ), array(
-            'id' => '2',
-            'label' => 'My Card 2',
-            'currency' => 'EUR',
-            'balance' => '499.23',
+            'id' => $this->faker->randomDigitNotNull,
+            'label' => $this->faker->sentence(2),
+            'currency' => $this->faker->currencyCode,
+            'balance' => $this->faker->randomFloat(2),
         ));
 
         $response = $this->getResponseMock($data);
@@ -357,7 +408,7 @@ class UserTest extends TestCase
             ->with('/me/cards')
             ->will($this->returnValue($response));
 
-        $user = new User($client, array('username' => 'foobar'));
+        $user = new User($client, array('username' => $this->faker->username));
 
         $cards = $user->getCards();
 
@@ -373,18 +424,18 @@ class UserTest extends TestCase
      */
     public function shouldReturnCardsByCurrency()
     {
-        $expectedCurrency = 'BTC';
+        $expectedCurrency = $this->faker->currencyCode;
 
         $data = array(array(
-            'id' => '1',
-            'label' => 'My Card',
-            'currency' => 'BTC',
-            'balance' => '12.03',
+            'id' => $this->faker->randomDigitNotNull,
+            'label' => $this->faker->sentence(2),
+            'currency' =>  $expectedCurrency,
+            'balance' => $this->faker->randomFloat(2),
         ), array(
-            'id' => '2',
-            'label' => 'My Card 2',
-            'currency' => 'EUR',
-            'balance' => '499.23',
+            'id' => $this->faker->randomDigitNotNull,
+            'label' => $this->faker->sentence(2),
+            'currency' => $this->faker->currencyCode,
+            'balance' => $this->faker->randomFloat(2),
         ));
 
         $response = $this->getResponseMock($data);
@@ -395,7 +446,7 @@ class UserTest extends TestCase
             ->with('/me/cards')
             ->will($this->returnValue($response));
 
-        $user = new User($client, array('username' => 'foobar'));
+        $user = new User($client, array('username' => $this->faker->username));
 
         $cards = $user->getCardsByCurrency($expectedCurrency);
 
@@ -411,9 +462,9 @@ class UserTest extends TestCase
     public function shouldCreateNewCard()
     {
         $data = array(
-            'id' => '1',
-            'label' => 'My new card',
-            'currency' => 'BTC',
+            'id' => $this->faker->randomDigitNotNull,
+            'label' => $this->faker->sentence(2),
+            'currency' => $this->faker->currencyCode,
         );
 
         $response = $this->getResponseMock($data);
@@ -424,7 +475,7 @@ class UserTest extends TestCase
             ->with('/me/cards')
             ->will($this->returnValue($response));
 
-        $user = new User($client, array('username' => 'foobar'));
+        $user = new User($client, array('username' => $this->faker->username));
 
         $card = $user->createCard($data['label'], $data['currency']);
 
@@ -441,16 +492,16 @@ class UserTest extends TestCase
     public function shouldReturnOneCard()
     {
         $data = array(
-            'id' => '1',
+            'id' => $this->faker->randomDigitNotNull,
             'address' => array(
                 'bitcoin' => '145ZeN94MAtTmEgvhXEch3rRgrs7BdD2cY'
             ),
-            'label' => 'My Card',
-            'currency' => 'BTC',
-            'balance' => '12.03',
-            'available' => '12.03',
-            'lastTransactionAt' => '2014-06-16T20:46:51.002Z',
-            'position' => '2',
+            'label' => $this->faker->sentence(2),
+            'currency' => $this->faker->currencyCode,
+            'balance' => $this->faker->randomFloat(2),
+            'available' => $this->faker->randomFloat(2),
+            'lastTransactionAt' => $this->faker->iso8601,
+            'position' => $this->faker->randomDigitNotNull,
             'addresses' => array(array(
                 'id' => '145ZeN94MAtTmEgvhXEch3rRgrs7BdD2cY',
                 'network' => 'bitcoin',
@@ -465,7 +516,7 @@ class UserTest extends TestCase
             ->with(sprintf('/me/cards/%s', $data['id']))
             ->will($this->returnValue($response));
 
-        $user = new User($client, array('username' => 'foobar'));
+        $user = new User($client, array('username' => $this->faker->username));
 
         $card = $user->getCardById($data['id']);
 
@@ -479,10 +530,10 @@ class UserTest extends TestCase
     public function shouldReturnTransactions()
     {
         $data = array(array(
-            'id' => '1',
+            'id' => $this->faker->randomDigitNotNull,
             'status' => 'pending',
         ), array(
-            'id' => '2',
+            'id' => $this->faker->randomDigitNotNull,
             'status' => 'completed',
         ));
 
@@ -494,7 +545,7 @@ class UserTest extends TestCase
             ->with('/me/transactions')
             ->will($this->returnValue($response));
 
-        $user = new User($client, array('username' => 'foobar'));
+        $user = new User($client, array('username' => $this->faker->username));
 
         $pager = $user->getTransactions();
 
