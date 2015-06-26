@@ -246,13 +246,31 @@ class BitreserveClient
      */
     public function createToken($login, $password, $description, $otp = null)
     {
-        $headers = array_merge($this->getDefaultHeaders(), array(
+        $headers = array(
             'Authorization' => sprintf('Basic %s', base64_encode(sprintf('%s:%s', $login, $password))),
             'X-Bitreserve-OTP' => $otp,
-        ));
+        );
 
         $response = $this->post('/me/tokens',
             array('description' => $description),
+            $headers
+        );
+
+        return $response->getContent();
+    }
+
+    /**
+     * Delete a Personal Access Token (PAT).
+     *
+     * @param string $token pass in the token you wish to revoke.
+     *
+     *
+     * @return array
+     */
+    public function deleteToken()
+    {
+        $headers = getDefaultHeaders();
+        $response = $this->delete('/me/tokens/:token',
             $headers
         );
 
