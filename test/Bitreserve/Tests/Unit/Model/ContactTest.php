@@ -14,7 +14,7 @@ class ContactTest extends TestCase
      */
     public function shouldReturnInstanceOfContact()
     {
-        $data = array('id' => '1');
+        $data = array('id' => $this->faker->randomDigitNotNull);
 
         $client = $this->getBitreserveClientMock();
 
@@ -29,7 +29,7 @@ class ContactTest extends TestCase
      */
     public function shouldReturnId()
     {
-        $data = array('id' => '1');
+        $data = array('id' => $this->faker->randomDigitNotNull);
 
         $client = $this->getBitreserveClientMock();
 
@@ -43,7 +43,7 @@ class ContactTest extends TestCase
      */
     public function shouldReturnFirstName()
     {
-        $data = array('firstName' => 'Foobar');
+        $data = array('firstName' => $this->faker->firstName);
 
         $client = $this->getBitreserveClientMock();
 
@@ -57,7 +57,7 @@ class ContactTest extends TestCase
      */
     public function shouldReturnLastName()
     {
-        $data = array('lastName' => 'Foobar');
+        $data = array('lastName' => $this->faker->lastName);
 
         $client = $this->getBitreserveClientMock();
 
@@ -71,7 +71,7 @@ class ContactTest extends TestCase
      */
     public function shouldReturnName()
     {
-        $data = array('name' => 'Foobar');
+        $data = array('name' => $this->faker->name);
 
         $client = $this->getBitreserveClientMock();
 
@@ -85,7 +85,7 @@ class ContactTest extends TestCase
      */
     public function shouldReturnCompany()
     {
-        $data = array('company' => 'Foobar');
+        $data = array('company' => $this->faker->company);
 
         $client = $this->getBitreserveClientMock();
 
@@ -99,7 +99,7 @@ class ContactTest extends TestCase
      */
     public function shouldReturnEmails()
     {
-        $data = array('emails' => array('foo@bar.com'));
+        $data = array('emails' => array($this->faker->email));
 
         $client = $this->getBitreserveClientMock();
 

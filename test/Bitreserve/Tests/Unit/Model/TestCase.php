@@ -2,10 +2,12 @@
 
 namespace Bitreserve\Tests\Unit\Model;
 
+use Bitreserve\Tests\Unit\TestCase as BaseTestCase;
+
 /**
  * TestCase.
  */
-abstract class TestCase extends \PHPUnit_Framework_TestCase
+abstract class TestCase extends BaseTestCase
 {
     /**
      * Get Model class.
