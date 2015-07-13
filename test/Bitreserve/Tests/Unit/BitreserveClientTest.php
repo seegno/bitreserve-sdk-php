@@ -445,6 +445,11 @@ class BitreserveClientTest extends TestCase
         );
     }
 
+    /**
+     * Get BitreserveClient mock.
+     *
+     * @return BitreserveClient
+     */
     protected function getBitreserveClientMock()
     {
         $methods = array('get', 'post', 'patch', 'put', 'delete', 'request', 'setOption', 'getOption', 'setHeaders', 'getToken');
@@ -454,6 +459,11 @@ class BitreserveClientTest extends TestCase
             ->getMock();
     }
 
+    /**
+     * Get HttpClient mock.
+     *
+     * @return HttpClient
+     */
     protected function getHttpClientMock()
     {
         $methods = array('get', 'post', 'patch', 'put', 'delete', 'request', 'setOption', 'setHeaders');
@@ -463,6 +473,13 @@ class BitreserveClientTest extends TestCase
             ->getMock();
     }
 
+    /**
+     * Get Reponse mock.
+     *
+     * @param string $content Response content.
+     *
+     * @return Response
+     */
     protected function getResponseMock($content = null)
     {
         $response = $this->getMockBuilder('Bitreserve\HttpClient\Message\Response')
