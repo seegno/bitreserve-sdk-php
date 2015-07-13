@@ -61,7 +61,7 @@ class Paginator
      *
      * @var int
      */
-    protected $limit = 50;
+    protected $limit;
 
     /**
      * Constructor.
@@ -71,12 +71,13 @@ class Paginator
      * @param array $parameters Request parameters.
      * @param array $headers Request headers.
      */
-    public function __construct($client, $path, $parameters = array(), $headers = array())
+    public function __construct($client, $path, $parameters = array(), $headers = array(), $limit = 50)
     {
         $this->client = $client;
         $this->path = $path;
         $this->parameters = $parameters;
         $this->headers = $headers;
+        $this->limit = $limit;
     }
 
     /**

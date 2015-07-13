@@ -246,13 +246,78 @@ class BitreserveClient
      */
     public function createToken($login, $password, $description, $otp = null)
     {
-        $headers = array_merge($this->getDefaultHeaders(), array(
+        $headers = array(
             'Authorization' => sprintf('Basic %s', base64_encode(sprintf('%s:%s', $login, $password))),
             'X-Bitreserve-OTP' => $otp,
-        ));
+        );
 
         $response = $this->post('/me/tokens',
             array('description' => $description),
+            $headers
+        );
+
+        return $response->getContent();
+    }
+
+    /**
+     * Make a simple request using OTP.
+     *
+     * @param string $login Login email or username.
+     * @param string $password Password.
+     * @param string $otp Verification code
+     *
+     * @return array
+     */
+    public function simpleRequest($login, $password, $otp)
+    {
+        $headers = array(
+            'Authorization' => sprintf('Basic %s', base64_encode(sprintf('%s:%s', $login, $password))),
+            'X-Bitreserve-OTP' => $otp,
+        );
+
+        $response = $this->get('/me/',
+            $headers
+        );
+
+        return $response->getContent();
+    }
+
+    /**
+     * Delete a Personal Access Token (PAT).
+     *
+     * @param string $token pass in the token you wish to revoke.
+     *
+     *
+     * @return array
+     */
+    public function deleteToken()
+    {
+        $headers = getDefaultHeaders();
+        $response = $this->delete('/me/tokens/:token',
+            $headers
+        );
+
+        return $response->getContent();
+    }
+
+       /**
+     * Create a new Personal Access Token (PAT) via Oauth2.
+     *
+     * @param string $clientID clientID from applications page.
+     * @param string $clientSecret clientSecret from applications page.
+     * @param string $code is passed to you via your callback url.
+     *
+     * @return array
+     */
+    public function getOauth2Token($clientID, $clientSecret, $code)
+    {
+        $headers = array(
+            'Authorization' => sprintf('Basic %s', base64_encode(sprintf('%s:%s', $clientID, $clientSecret))),
+        );
+
+        $response = $this->postFormUrlEncoded('/oauth2/token',
+            array('code' => $code,
+                  'grant_type' => 'authorization_code'),
             $headers
         );
 
@@ -292,6 +357,25 @@ class BitreserveClient
             $this->buildPath($path),
             $this->createJsonBody($parameters),
             array_merge($this->getDefaultHeaders(), $requestHeaders)
+        );
+    }
+
+        /**
+     * Send a POST request with x-www-form-urlencoded parameters.
+     *
+     * @param string $path Request path.
+     * @param array $parameters POST parameters to be form url-encoded.
+     * @param array $requestHeaders Request headers.
+     *
+     * @return \GuzzleHttp\EntityBodyInterface|mixed|string
+     */
+    public function postFormUrlEncoded($path, array $parameters = array(), $requestHeaders = array())
+    {
+
+        return $this->getHttpClient()->post(
+            $this->buildPath($path, $includeVersion = False),
+            $this->createFormUrlEncodedBody($parameters),
+            array_merge($this->getDefaultHeaders($contentType = 'application/x-www-form-urlencoded'), $requestHeaders)
         );
     }
 
@@ -352,11 +436,13 @@ class BitreserveClient
     /**
      * Build the API path that includes the API version.
      *
+     * @param boolean $includeVersion whether to construct base url with a version.
+     *
      * @return string
      */
-    protected function buildPath($path)
+    protected function buildPath($path, $includeVersion = True)
     {
-        if (empty($this->options['api_version'])) {
+        if (!$includeVersion || empty($this->options['api_version'])) {
             return $path;
         }
 
@@ -381,16 +467,36 @@ class BitreserveClient
         return json_encode($parameters, $options);
     }
 
+     /**
+     * Create a form url encoded version of an array of parameters.
+     *
+     * @param array $parameters Request parameters
+     *
+     * @return string
+     */
+    protected function createFormUrlEncodedBody(array $parameters)
+    {
+        $options = 0;
+
+        if (empty($parameters)) {
+          return "";
+        }
+
+        return http_build_query($parameters);
+    }
+
     /**
      * Create the API default headers that are mandatory.
      *
+     * @param string $contentType the value of the Content-Type header.
+     *
      * @return array
      */
-    protected function getDefaultHeaders()
+    protected function getDefaultHeaders($contentType = 'application/json')
     {
         $headers = array(
             'Accept' => 'application/json',
-            'Content-Type' => 'application/json',
+            'Content-Type' => $contentType,
             'User-Agent' => str_replace('{version}', sprintf('v%s', $this->getOption('version')), $this->getOption('user_agent')),
         );
 
