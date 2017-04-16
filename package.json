@@ -1,0 +1,15 @@
+{
+  "name": "bitreserve-sdk-php",
+  "version": "2.0.1",
+  "description": "Bitreserve SDK PHP for the Bitreserve API",
+  "devDependencies": {
+    "github-changes": "0.0.16"
+  },
+  "scripts": {
+    "changelog": "./node_modules/.bin/github-changes -o seegno -r bitreserve-sdk-php -a --only-pulls --use-commit-body --title 'Changelog' --date-format '/ YYYY-MM-DD'"
+  },
+  "repository": "https://github.com/seegno/bitreserve-sdk-php.git",
+  "author": "Seegno",
+  "license": "MIT",
+  "homepage": "https://github.com/seegno/bitreserve-sdk-php"
+}
