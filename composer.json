@@ -16,7 +16,7 @@
         "php": ">=5.5",
         "ext-curl": "*",
         "guzzlehttp/guzzle": "~5.1",
-        "symfony/console": "~3.2.8"
+        "symfony/console": "~3.2"
     },
     "require-dev": {
         "codeclimate/php-test-reporter": "~0.1",
